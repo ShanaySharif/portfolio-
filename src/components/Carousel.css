@@ -1,0 +1,53 @@
+/* Carousel Container - holds everything together */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Container for all images - they sit side by side */
+.carousel-slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Individual image styling */
+.carousel-img {
+  width: 100%;
+  min-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Navigation button styles (Previous and Next) */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 1rem 1.2rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Previous button on the left side */
+.carousel-btn-prev {
+  left: 10px;
+}
+
+/* Next button on the right side */
+.carousel-btn-next {
+  right: 10px;
+}

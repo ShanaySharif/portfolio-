@@ -1,45 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+:root {
+  /* Neuro-Architect theme: deep midnight + electrical accents */
+  --neuro-bg: #0a0a0a;
+  --ink: #e4e4e7;
+  --muted: #71717a;
+  --paper: #0a0a0a;
+  --warm: #18181b;
+  --line: #27272a;
+  --brain-pink: rgba(188, 19, 254, 0.4);
+  --brain-pink-deep: rgba(188, 19, 254, 0.6);
+  --accent: #00f2ff;
+  --accent-purple: #bc13fe;
+  --accent-soft: rgba(0, 242, 255, 0.12);
+  --accent-purple-soft: rgba(188, 19, 254, 0.12);
+  --card-bg: #141414;
+  --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 0 32px rgba(0, 242, 255, 0.15), 0 0 48px rgba(188, 19, 254, 0.08);
+
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
-  background-color: #f7f7f7;
-  color: #333;
+  -webkit-font-smoothing: antialiased;
 }
 
-header {
-  background: #222;
-  color: white;
-  padding: 2rem;
-  text-align: center;
-}
-
-section {
-  padding: 2rem;
-  max-width: 800px;
-  margin: auto;
-}
-
-h2 {
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 0.5rem;
-}
-
-.project {
-  background: white;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 6px;
-}
-
-.project a {
+a {
+  color: inherit;
   text-decoration: none;
-  color: #007bff;
 }
 
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #222;
-  color: white;
+a:hover {
+  text-decoration: underline;
 }

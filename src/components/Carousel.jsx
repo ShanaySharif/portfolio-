@@ -1,78 +1,119 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import './Carousel.css'
-
-// Import images from the local images folder
-// Vite will process these imports and include them in the build
-import image1 from '../images/nomadic-cafe-1.png'
-import image2 from '../images/nomadic-cafe-2.png'
-import image3 from '../images/nomadic-cafe-3.png'
 
 /**
  * Carousel Component
- * Displays images in a sliding carousel with auto-advance and manual navigation
- * Images are stored locally in the frontend/src/images folder
+ * Accepts a projects prop (array) and renders one project per slide.
+ * Each slide: image, title, description, tech tags, GitHub link, Live Demo (if link provided).
+ * Supports prev/next arrows, dot indicators, and keyboard left/right.
  */
-function Carousel() {
-  // State to track which image is currently showing (0 = first image)
+function Carousel({ projects = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  
-  // Array of imported images - these are loaded from the local images folder
-  const images = [image1, image2, image3]
+  const count = projects.length
 
-  // Auto-advance carousel every 3 seconds
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % count)
+  }, [count])
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + count) % count)
+  }, [count])
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
-    }, 3000)
-
-    // Cleanup: clear interval when component unmounts
+    if (count === 0) return
+    const interval = setInterval(nextSlide, 5000)
     return () => clearInterval(interval)
-  }, [images.length])
+  }, [count, nextSlide])
 
-  // Function to go to next image
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
-  }
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') prevSlide()
+      if (e.key === 'ArrowRight') nextSlide()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [prevSlide, nextSlide])
 
-  // Function to go to previous image
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
-  }
+  if (count === 0) return null
 
   return (
-    <div 
-      className="carousel-container"
-      onMouseEnter={() => {
-        // Pause auto-slide on hover (optional - you can remove this if you want)
-        // This would require additional state management
-      }}
-    >
-      <div 
+    <div className="carousel-container" role="region" aria-label="Projects carousel">
+      <div
         className="carousel-slides"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Nomadic Cafe screenshot ${index + 1}`}
-            className="carousel-img"
-          />
+        {projects.map((project, index) => (
+          <div key={project.title + index} className="carousel-slide">
+            <div className="carousel-slide-image-wrap">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="carousel-img"
+              />
+              {index === currentIndex && (
+                <div className="carousel-dots" role="tablist" aria-label="Slide indicators">
+                  {projects.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === currentIndex}
+                      aria-label={`Go to slide ${i + 1}`}
+                      className={`carousel-dot ${i === currentIndex ? 'carousel-dot-active' : ''}`}
+                      onClick={() => setCurrentIndex(i)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="carousel-slide-content">
+              <h3 className="carousel-slide-title">{project.title}</h3>
+              <p className="carousel-slide-desc">{project.description}</p>
+              <div className="carousel-slide-tags">
+                {project.tech?.map((t) => (
+                  <span key={t} className="carousel-tag">{t}</span>
+                ))}
+              </div>
+              <div className="carousel-slide-actions">
+                {project.githubUrl && (
+                  <a
+                    className="carousel-btn-link"
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    GitHub
+                  </a>
+                )}
+                {project.liveUrl && (
+                  <a
+                    className="carousel-btn-link carousel-btn-link-primary"
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Live Demo
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
         ))}
       </div>
-      
-      <button 
-        className="carousel-btn carousel-btn-prev" 
+
+      <button
+        type="button"
+        className="carousel-btn carousel-btn-prev"
         onClick={prevSlide}
-        aria-label="Previous image"
+        aria-label="Previous slide"
       >
         &#8249;
       </button>
-      
-      <button 
-        className="carousel-btn carousel-btn-next" 
+      <button
+        type="button"
+        className="carousel-btn carousel-btn-next"
         onClick={nextSlide}
-        aria-label="Next image"
+        aria-label="Next slide"
       >
         &#8250;
       </button>

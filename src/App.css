@@ -304,6 +304,90 @@
   text-decoration: none;
 }
 
+/* About Me (Limbic System): circular photo + glassmorphism cards */
+.about-me-section {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 640px) {
+  .about-me-section {
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.about-me-photo-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .about-me-photo-wrap {
+    justify-content: flex-start;
+  }
+}
+
+.about-me-photo-frame {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  padding: 4px;
+  background: var(--neuro-bg);
+  box-shadow: 0 0 0 2px var(--accent-purple), 0 0 24px rgba(188, 19, 254, 0.35);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.about-me-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.about-me-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--warm) 0%, var(--line) 100%);
+}
+
+.about-me-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.about-me-card.glass-card {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.about-me-card-title {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-purple);
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+.about-me-card-text {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink);
+  margin: 0;
+}
+
 /* Goals block */
 .goals-block {
   display: grid;

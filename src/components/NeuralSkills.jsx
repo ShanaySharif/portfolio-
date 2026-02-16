@@ -115,11 +115,12 @@ export function projectTechToSkillIds(tech = []) {
   return ids;
 }
 
-const NEON_BLUE = "#00f2ff";
-const NEON_PURPLE = "#bc13fe";
+/** Use theme colors from :root (--accent, --accent-purple) */
+const ACCENT = "var(--accent)";
+const ACCENT_PURPLE = "var(--accent-purple)";
 
-function NeuralSkills({ activeSkillIds = new Set(), className = "" }) {
-  const graph = useMemo(() => buildGraph(), []);
+function NeuralSkills({ activeSkillIds = new Set(), graphData, className = "" }) {
+  const graph = useMemo(() => graphData ?? buildGraph(), [graphData]);
 
   return (
     <div className={`neural-skills ${className}`}>
@@ -131,8 +132,8 @@ function NeuralSkills({ activeSkillIds = new Set(), className = "" }) {
       >
         <defs>
           <linearGradient id="neuralLinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={NEON_BLUE} />
-            <stop offset="100%" stopColor={NEON_PURPLE} />
+            <stop offset="0%" stopColor={ACCENT} />
+            <stop offset="100%" stopColor={ACCENT_PURPLE} />
           </linearGradient>
           <filter id="neuralGlow">
             <feGaussianBlur stdDeviation="2" result="blur" />
@@ -187,7 +188,7 @@ function NeuralSkills({ activeSkillIds = new Set(), className = "" }) {
               strokeWidth={1.5}
               initial={false}
               animate={{
-                stroke: graph.dendrites.some((d) => d.hubId === hub.id && activeSkillIds.has(d.id)) ? NEON_PURPLE : "var(--line)",
+                stroke: graph.dendrites.some((d) => d.hubId === hub.id && activeSkillIds.has(d.id)) ? ACCENT_PURPLE : "var(--line)",
                 filter: graph.dendrites.some((d) => d.hubId === hub.id && activeSkillIds.has(d.id)) ? "url(#neuralGlow)" : "none",
               }}
               transition={{ duration: 0.25 }}
@@ -213,14 +214,14 @@ function NeuralSkills({ activeSkillIds = new Set(), className = "" }) {
                 cx={node.x}
                 cy={node.y}
                 r={NODE_SIZE}
-                fill={isActive ? NEON_BLUE : "var(--warm)"}
-                stroke={isActive ? NEON_PURPLE : "var(--line)"}
+                fill={isActive ? ACCENT : "var(--warm)"}
+                stroke={isActive ? ACCENT_PURPLE : "var(--line)"}
                 strokeWidth={isActive ? 2 : 1}
                 initial={false}
                 animate={{
                   r: NODE_SIZE,
                   filter: isActive ? "url(#neuralGlowStrong)" : "none",
-                  boxShadow: isActive ? `0 0 20px ${NEON_BLUE}` : "none",
+                  boxShadow: isActive ? `0 0 20px ${ACCENT}` : "none",
                 }}
                 transition={{
                   duration: 0.3,
@@ -234,7 +235,7 @@ function NeuralSkills({ activeSkillIds = new Set(), className = "" }) {
                   cx={node.x}
                   cy={node.y}
                   fill="none"
-                  stroke={NEON_PURPLE}
+                  stroke={ACCENT_PURPLE}
                   strokeWidth={1}
                   initial={{ r: NODE_SIZE + 4, opacity: 0.5 }}
                   animate={{

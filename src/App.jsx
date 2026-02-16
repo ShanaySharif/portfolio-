@@ -1,8 +1,8 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BrainNav, { brainRegions } from "./components/BrainNav";
-import NeuralSkills, { projectTechToSkillIds } from "./components/NeuralSkills";
+import NeuralSkills, { projectTechToSkillIds, neuralSkillGraph } from "./components/NeuralSkills";
 
 /* ----- ProjectCard ----- */
 function ProjectCard({ title, tagline, description, tech = [], githubUrl, liveUrl, image }) {
@@ -91,6 +91,12 @@ const zoomDuration = 0.5;
 export default function App() {
   const [activeRegion, setActiveRegion] = useState(null);
   const [hoveredSkillIds, setHoveredSkillIds] = useState(new Set());
+  const [shanayImg, setShanayImg] = useState(null);
+  useEffect(() => {
+    import("./images/shanay.jpg")
+      .then((m) => setShanayImg(m.default))
+      .catch(() => setShanayImg(null));
+  }, []);
 
   return (
     <div className="page mind-map-page">
@@ -157,7 +163,7 @@ export default function App() {
                     <p className="section-view-lead">
                       Full-stack and server-side projects—from APIs and databases to frontend interfaces.
                     </p>
-                    <NeuralSkills activeSkillIds={hoveredSkillIds} />
+                    <NeuralSkills activeSkillIds={hoveredSkillIds} graphData={neuralSkillGraph} />
                     <div className="project-grid">
                       {logicProjects.map((p) => (
                         <div
@@ -178,7 +184,7 @@ export default function App() {
                     <p className="section-view-lead">
                       Brand-driven, visually focused web experiences and polished interfaces.
                     </p>
-                    <NeuralSkills activeSkillIds={hoveredSkillIds} />
+                    <NeuralSkills activeSkillIds={hoveredSkillIds} graphData={neuralSkillGraph} />
                     <div className="project-grid">
                       {creativeProjects.map((p) => (
                         <div
@@ -195,11 +201,37 @@ export default function App() {
 
                 {activeRegion === "emotion" && (
                   <>
-                    <h1 className="section-view-heading">Emotion — Human-Centered / UX</h1>
+                    <h1 className="section-view-heading">The Limbic System — About Me / Values</h1>
                     <p className="section-view-lead">
-                      UX analysis and product thinking applied to real-world problems.
+                      UX analysis, product thinking, and who I am.
                     </p>
-                    <NeuralSkills activeSkillIds={hoveredSkillIds} />
+                    <NeuralSkills activeSkillIds={hoveredSkillIds} graphData={neuralSkillGraph} />
+                    {/* About Me: circular photo + glassmorphism bio cards */}
+                    <section className="about-me-section">
+                      <div className="about-me-photo-wrap">
+                        <div className="about-me-photo-frame">
+                          {shanayImg ? (
+                            <img src={shanayImg} alt="Shanay Mohamed" className="about-me-photo" />
+                          ) : (
+                            <div className="about-me-photo-placeholder" aria-hidden="true" />
+                          )}
+                        </div>
+                      </div>
+                      <div className="about-me-cards">
+                        <div className="about-me-card glass-card">
+                          <h3 className="about-me-card-title">About</h3>
+                          <p className="about-me-card-text">
+                            I'm a software engineer focused on building thoughtful, human-centered technology. My work sits at the intersection of logic and creativity — from full-stack systems to user experience and product thinking.
+                          </p>
+                        </div>
+                        <div className="about-me-card glass-card">
+                          <h3 className="about-me-card-title">Values</h3>
+                          <p className="about-me-card-text">
+                            I care about accessibility, clear communication, and learning in the open. As a neurodivergent developer, I bring a unique perspective to problem-solving and team collaboration.
+                          </p>
+                        </div>
+                      </div>
+                    </section>
                     <div className="project-grid">
                       {emotionProjects.map((p) => (
                         <div

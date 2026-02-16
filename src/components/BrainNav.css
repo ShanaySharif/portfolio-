@@ -47,22 +47,60 @@
   cursor: pointer;
 }
 
-/* Brain shell: glassmorphism container */
-.brain-shell {
+/* Cinematic entrance: fixed center overlay at 2.5x */
+.brain-entrance-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.6);
   pointer-events: none;
 }
 
-/* Circuit lines and nodes */
+.brain-entrance-scaled {
+  width: min(90vw, 560px);
+  max-width: 560px;
+}
+
+.brain-svg-entrance {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.brain-circuits-entrance {
+  pointer-events: none;
+}
+
+.brain-circuits-entrance path,
+.brain-circuits-entrance circle {
+  pointer-events: none;
+}
+
+/* Dual-hemisphere silhouette (glassmorphism) */
+.brain-hemisphere {
+  pointer-events: none;
+}
+
+.brain-hemisphere-left,
+.brain-hemisphere-right {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+/* Circuit lines and terminal nodes */
 .brain-circuits {
   pointer-events: none;
 }
 
-.brain-circuit-group polyline,
+.brain-circuit-group path,
 .brain-circuit-group circle {
-  transition: opacity 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease, r 0.2s ease;
+  transition: opacity 0.2s ease, stroke 0.2s ease, r 0.2s ease;
 }
 
-.brain-circuit-active polyline {
+.brain-circuit-active path {
   animation: brain-circuit-pulse 1.2s ease-in-out infinite;
 }
 
@@ -97,7 +135,7 @@
   .brain-card {
     animation: none;
   }
-  .brain-circuit-active polyline,
+  .brain-circuit-active path,
   .brain-circuit-active circle {
     animation: none;
     opacity: 1;
